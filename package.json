@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webstudi0/n8n-nodes-companies-house"
+    "url": "https://github.com/webstudi0/n8n-nodes-companies-house.git"
   },
   "engines": {
     "node": ">=18.10",
