@@ -19,7 +19,6 @@ export class CompaniesHouse implements INodeType {
     defaults: {
       name: 'Companies House',
     },
-    // strings are safer than NodeConnectionTypes for loading
     inputs: ['main'],
     outputs: ['main'],
     credentials: [
