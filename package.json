@@ -23,11 +23,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && gulp build:icons",
+    "prepare": "npm run build",
     "dev": "tsc --watch",
     "format": "prettier nodes credentials --write",
     "lint": "eslint nodes credentials package.json",
     "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "pnpm build && pnpm lint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
   },
   "files": [
     "dist"
@@ -43,11 +44,8 @@
   },
   "devDependencies": {
     "@types/node": "^22.13.14",
-    "@typescript-eslint/parser": "^7.15.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.1",
     "gulp": "^4.0.2",
-    "prettier": "^3.3.2",
+    "n8n-workflow": "^1.0.0",
     "typescript": "^5.5.3"
   },
   "peerDependencies": {
