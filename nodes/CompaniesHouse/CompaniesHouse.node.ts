@@ -5,7 +5,6 @@ import {
   INodeTypeDescription,
   IHttpRequestOptions,
   NodeApiError,
-  NodeConnectionTypes,
 } from 'n8n-workflow';
 
 export class CompaniesHouse implements INodeType {
@@ -20,6 +19,7 @@ export class CompaniesHouse implements INodeType {
     defaults: {
       name: 'Companies House',
     },
+    // strings are safer than NodeConnectionTypes for loading
     inputs: ['main'],
     outputs: ['main'],
     credentials: [
@@ -34,7 +34,6 @@ export class CompaniesHouse implements INodeType {
         name: 'operation',
         type: 'options',
         noDataExpression: true,
-        // Removed description here
         default: 'search',
         options: [
           {
@@ -85,54 +84,54 @@ export class CompaniesHouse implements INodeType {
       },
     ],
   };
-	
-	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
-	  const items = this.getInputData();
-	  const returnData: INodeExecutionData[] = [];
-	
-	  for (let i = 0; i < items.length; i++) {
-	    const operation = this.getNodeParameter('operation', i) as string;
-	    const companyInput = this.getNodeParameter('companyInput', i) as string;
-	
-	    let url = '';
-	    switch (operation) {
-	      case 'search':
-	        url = `https://api.company-information.service.gov.uk/search/companies?q=${encodeURIComponent(companyInput)}`;
-	        break;
-	      case 'getProfile':
-	        url = `https://api.company-information.service.gov.uk/company/${companyInput}`;
-	        break;
-	      case 'getOfficers':
-	        url = `https://api.company-information.service.gov.uk/company/${companyInput}/officers`;
-	        break;
-	      case 'getFilingHistory':
-	        url = `https://api.company-information.service.gov.uk/company/${companyInput}/filing-history`;
-	        break;
-	      case 'getAddress':
-	        url = `https://api.company-information.service.gov.uk/company/${companyInput}/registered-office-address`;
-	        break;
-	      case 'getPsc':
-	        url = `https://api.company-information.service.gov.uk/company/${companyInput}/persons-with-significant-control`;
-	        break;
-	      default:
-	        throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
-	    }
-	
-	    const options: IHttpRequestOptions = {
-	      method: 'GET',
-	      url,
-	      json: true,
-	    };
-	
-	    const response = await this.helpers.httpRequestWithAuthentication.call(
-	      this,
-	      'companiesHouseApi',
-	      options,
-	    );
-	
-	    returnData.push({ json: response });
-	  }
-	
-	  return [returnData];
-	}
+
+  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    const items = this.getInputData();
+    const returnData: INodeExecutionData[] = [];
+
+    for (let i = 0; i < items.length; i++) {
+      const operation = this.getNodeParameter('operation', i) as string;
+      const companyInput = this.getNodeParameter('companyInput', i) as string;
+
+      let url = '';
+      switch (operation) {
+        case 'search':
+          url = `https://api.company-information.service.gov.uk/search/companies?q=${encodeURIComponent(companyInput)}`;
+          break;
+        case 'getProfile':
+          url = `https://api.company-information.service.gov.uk/company/${companyInput}`;
+          break;
+        case 'getOfficers':
+          url = `https://api.company-information.service.gov.uk/company/${companyInput}/officers`;
+          break;
+        case 'getFilingHistory':
+          url = `https://api.company-information.service.gov.uk/company/${companyInput}/filing-history`;
+          break;
+        case 'getAddress':
+          url = `https://api.company-information.service.gov.uk/company/${companyInput}/registered-office-address`;
+          break;
+        case 'getPsc':
+          url = `https://api.company-information.service.gov.uk/company/${companyInput}/persons-with-significant-control`;
+          break;
+        default:
+          throw new NodeApiError(this.getNode(), { message: `Unknown operation: ${operation}` });
+      }
+
+      const options: IHttpRequestOptions = {
+        method: 'GET',
+        url,
+        json: true,
+      };
+
+      const response = await this.helpers.httpRequestWithAuthentication.call(
+        this,
+        'companiesHouseApi',
+        options,
+      );
+
+      returnData.push({ json: response as object });
+    }
+
+    return [returnData];
+  }
 }
