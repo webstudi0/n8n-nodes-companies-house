@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-companies-house",
-  "version": "0.1.19",
+  "version": "0.1.20",
   "description": "n8n community node for Companies House UK",
   "keywords": [
     "n8n-community-node-package"
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yandaq/n8n-nodes-companies-house.git"
+    "url": "https://github.com/webstudi0/n8n-nodes-companies-house"
   },
   "engines": {
     "node": ">=18.10",
