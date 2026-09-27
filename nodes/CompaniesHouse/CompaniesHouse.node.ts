@@ -20,8 +20,8 @@ export class CompaniesHouse implements INodeType {
     defaults: {
       name: 'Companies House',
     },
-    inputs: [NodeConnectionTypes.Main],
-		outputs: [NodeConnectionTypes.Main],
+    inputs: ['main'],
+    outputs: ['main'],
     credentials: [
       {
         name: 'companiesHouseApi',
